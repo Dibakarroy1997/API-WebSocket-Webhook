@@ -1,0 +1,33 @@
+// https://developers.google.com/protocol-buffers/docs/proto
+// poetry run python -m grpc_tools.protoc --python_out=. --grpc_python_out=. --proto_path=. grpc_example/proto/calculator.proto
+syntax = "proto3";
+
+
+package calculator;
+
+service CalculatorService{
+    // simple unary RPC
+    rpc Sum (SumRequest) returns (Number) {}
+
+    // response-streaming RPC (server responding multiple time for single request)
+    rpc PrimeNumberGenerator (Number) returns (stream Number) {}
+
+    // request-streaming RPC (for multiple request from client, server reply with single response)
+    rpc ComputerAverage (stream Number) returns (Float) {}
+
+    // bidirectionally-streaming RPC (multiple request from client, multiple response from server)
+    rpc FindMaximum (stream Number) returns (stream Number) {}
+}
+
+message SumRequest{
+    int32 x = 1;
+    int32 y = 2;
+}
+
+message Number{
+    int32 value = 1;
+}
+
+message Float{
+    float value = 1;
+}
